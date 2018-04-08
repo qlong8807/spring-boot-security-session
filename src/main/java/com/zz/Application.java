@@ -23,7 +23,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @SpringBootApplication
 @Controller
@@ -34,7 +36,7 @@ public class Application {
 	}
 	
 	@RequestMapping("/")
-	public String hello(Model model) {
+	public String homepage(Model model) {
 		model.addAttribute("hello", "world");
 		return "index";
 	}
@@ -55,5 +57,12 @@ public class Application {
 	public String logout(HttpServletRequest request) {
 		System.err.println("logout,sessionId:"+request.getSession().getId());
 		return "index";
+	}
+	
+	@RequestMapping("hello/{name}")
+	@ResponseBody
+	String hello(@PathVariable("name")String name) {
+		System.out.println(name);
+		return "hello:"+name;
 	}
 }
